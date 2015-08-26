@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <link href="~/Content/AdminLTE.css" rel="stylesheet" />
+    <link href="~/Content/skins/_all-skins.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <header class="main-header">
+            <a href="index2.html" class="logo" style="float: right;">
+                <span class="logo-lg">اسم المحل</span>
+            </a>
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button" style="float:right;">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+            </nav>
+        </header>
+
+        <aside class="main-sidebar" style="right:0;">
+            <section class="sidebar">
+                <ul class="sidebar-menu">
+                    <li class="active">
+                        <a class="arabic" href="#" >
+                            <i class="fa fa-dashboard"></i>
+                            <span>الشاشة الرئيسية</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </aside>
+
+
+        <div class="content-wrapper">
+            @*<section class="content-header">
+                <h1>
+                    Dashboard
+                    <small>Control panel</small>
+                </h1>
+            </section>*@
+            <section class="content">
+
+                @RenderBody()
+
+            </section>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @*<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>*@
+
+    <script src="~/Scripts/app.js"></script>
+    <script src="~/Scripts/demo.js"></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
