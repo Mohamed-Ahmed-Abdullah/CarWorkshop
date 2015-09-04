@@ -1,4 +1,8 @@
-﻿
+﻿<style>
+    .selected{
+        background-color:red;
+    }
+</style>
 <div class="row">
 
     <div class="col-md-6">
@@ -18,3 +22,27 @@
         <h2>الشاشة الرئيسية</h2>
     </div>
 </div>
+
+<div class="row">
+    <ul ng-repeat="car in cars">
+       <li><input type="text" ng-model="car.name" ng-class="{selected: car.isSelected}" /> <button ng-click="submit(car)">OK</button> </li> 
+    </ul>
+</div>
+
+@section scripts{
+
+    <script>
+        var parking = angular.module("CarWorkshop", []);
+
+        parking.controller("CarWorkshopController", function ($scope) {
+
+            $scope.cars = [{ name: 'abc1', isSelected: true}, { name: 'abc2', isSelected: false }];
+
+            $scope.submit = function (car) {
+                alert(car.name);
+            }
+
+        });
+    </script>
+
+}

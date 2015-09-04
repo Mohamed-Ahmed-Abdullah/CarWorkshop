@@ -18,16 +18,58 @@ textarea {
     src: url(BabylonFont.ttf);
 }
 
-body{
-        font-family: BabylonFont !important;
+body {
+    font-family: BabylonFont !important;
+    min-width: 767px !important;
 }
 
-h2{
-    text-align:right;
-    margin-top:0px;
+h2 {
+    text-align: right;
+    margin-top: 0px;
     font-family: BabylonFont !important;
 }
 
-.arabic{
-    text-align:right;
+.arabic {
+    text-align: right;
+}
+
+.table {
+    direction: rtl;
+}
+
+    .table td {
+        text-align: right;
+    }
+
+    .table th {
+        text-align: right;
+    }
+
+.box-header {
+    direction: rtl;
+}
+
+.modal-title {
+    text-align: right;
+    margin-right: 30px;
+    direction: rtl;
+    font-family: BabylonFont !important;
+    font-size: 23px;
+}
+
+.form-control {
+    direction: rtl;
+}
+
+label {
+    text-align: right;
+    direction: rtl;
+    display: block;
+}
+
+.required {
+    color: red;
+    text-align: right;
+    display: block;
+    font-size: 13px
 }
