@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace CarWorkshop.Models.Concept
+﻿namespace CarWorkshop.DataAccess.Entities
 {
     public class Concept
     {

@@ -11,9 +11,9 @@ using System.Web;
 using System.Web.Http;
 using System.Web.UI.WebControls;
 using CarWorkshop.DataAccess;
-using CarWorkshop.Models.Concept;
 using System.Web.Hosting;
 using System.Web.Mvc;
+using CarWorkshop.DataAccess.Entities;
 using Newtonsoft.Json.Linq;
 
 namespace CarWorkshop.Controllers

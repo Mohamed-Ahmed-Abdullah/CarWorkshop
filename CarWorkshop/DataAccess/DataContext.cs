@@ -1,5 +1,5 @@
 ﻿using System.Data.Entity;
-using CarWorkshop.Models.Concept;
+using CarWorkshop.DataAccess.Entities;
 
 namespace CarWorkshop.DataAccess
 {
@@ -7,6 +7,21 @@ namespace CarWorkshop.DataAccess
     {
         public DbSet<Concept> Concepts { get; set; }
 
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<SparePart> SpareParts { get; set; }
+
+        public DbSet<SparePartJob> SparePartJobs { get; set; }
+        public DbSet<PaintingJob> PaintingJobs { get; set; }
+        public DbSet<MechanicJob> MechanicJobs { get; set; }
+        public DbSet<DentingJob> DentingJobs { get; set; }
+
+
+        public DbSet<PaintingJobType> PaintingJobTypes { get; set; }
+        public DbSet<MechanicJobType> MechanicJobTypes { get; set; }
+        public DbSet<DentingJobType> DentingJobTypes { get; set; }
+
+
+        
 
 #if DEBUG
         public DatabaseContext()
@@ -30,6 +45,7 @@ namespace CarWorkshop.DataAccess
     {
         protected override void Seed(DatabaseContext context)
         {
+
         }
     }
 

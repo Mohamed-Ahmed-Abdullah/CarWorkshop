@@ -20,7 +20,7 @@
                             <span class="required" ng-show="conceptForm.name.$error.required">
                                 الرجاء ادخال الاسم
                             </span>
-                            <input name="name" class="form-control" id="conceptName" ng-model="concept.Name" required/>
+                            <input name="name" class="form-control" id="conceptName" ng-model="vm.concept.Name" required/>
                         </div>
 
                         <div class="row form-group" ng-class="{'has-error': conceptForm.value.$error.required}">
@@ -28,7 +28,7 @@
                             <span class="required" ng-show="conceptForm.value.$error.required">
                                 الرجاء ادخال القيمة
                             </span>
-                            <input name="value" type="number" class="form-control" id="conceptValue" ng-model="concept.Value" required/>
+                            <input name="value" type="number" class="form-control" id="conceptValue" ng-model="vm.concept.Value" required/>
                         </div>
 
                     </div>
@@ -37,7 +37,7 @@
             </div>
             <div class="modal-footer">
                 <button id="btnUpload" type="button" class="btn btn-default" data-dismiss="modal">اغلق</button>
-                <button type="button" class="btn btn-success" @*ng-disabled="conceptForm.$invalid"*@ ng-click="save()">حفظ</button>
+                <button type="button" class="btn btn-success" @*ng-disabled="conceptForm.$invalid"*@ ng-click="vm.save()">حفظ</button>
             </div>
         </div>
     </div>
@@ -48,7 +48,7 @@
 <div class="row">
 
     <div class="col-md-6">
-        <button class="btn btn-success" data-toggle="modal" ng-click="new()" > جديد </button>
+        <button class="btn btn-success" data-toggle="modal" ng-click="vm.new()" > جديد </button>
     </div>
 
     <div class="col-md-6">
@@ -75,14 +75,14 @@
             </thead>
 
             <tbody id="tableBody">
-            <tr ng-repeat="x in concepts">
+            <tr ng-repeat="x in vm.concepts">
                 <td ng-bind="x.Id"></td>
                 <td ng-bind="x.Name"></td>
                 <td ng-bind="x.Value"></td>
                 <td>
-                    <Button type="button" class="btn btn-success btn-xs" ng-click="edit(x)">تعديل</Button>
-                    <Button type="button" class="btn btn-default btn-xs" ng-click="edit(x)">التفاصيل</Button>
-                    <Button type="button" class="btn btn-danger btn-xs" ng-click="delete(x)">حذف</Button>
+                    <Button type="button" class="btn btn-success btn-xs" ng-click="vm.edit(x)">تعديل</Button>
+                    <Button type="button" class="btn btn-default btn-xs" ng-click="vm.edit(x)">التفاصيل</Button>
+                    <Button type="button" class="btn btn-danger btn-xs" ng-click="vm.delete(x)">حذف</Button>
                 </td>
             </tr>
             </tbody>
@@ -91,116 +91,21 @@
     </div>
 </div>
 
-
 @section scripts
 {
+    <script src="~/ViewModels/ConceptViewModel.js"></script>
 
     <script>
+
         var parking = angular.module("CarWorkshop", []);
 
         parking.controller("CarWorkshopController", function($scope) {
 
-            var conceptModal = $("#conceptModal");
-
-            //btnUpload
-            $("#btnUpload").click(function () {
-                var files = $("#file1").get(0).files;
-                if (files.length > 0) {
-                    var data = new FormData();
-                    for (i = 0; i < files.length; i++) {
-                        data.append("file" + i, files[i]);
-                    }
-                    $.ajax({
-                        type: "POST",
-                        url: "http:////" + window.location.host + "/Api/ApiConcept/Post",
-                        contentType: false,
-                        processData: false,
-                        data: data,
-                        success: function(results) {
-                            for (i = 0; i < results.length; i++) {
-                                alert(results[i]);
-                            }
-                        }
-                    });
-                }
-            });
-
-
-            var getData = function(url, successs) {
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        successs(data);
-                        $scope.$apply();
-                    },
-                    error: function(x, y, z) {
-                        alert("ERROR:" + x + '\n' + y + '\n' + z);
-                    }
-                });
-            };
-
-            var url = "http:////" + window.location.host + "/Api/ApiConcept/";
+            $scope.vm = new Concept.ConceptViewModel($scope);
 
             $(document).ready(function() {
-                $scope.getList();
-
+                $scope.vm.refresh();
             });
-
-            $scope.getList = function() {
-                getData(url + "get", function(data) {
-                    $scope.concepts = data;
-                });
-            };
-
-            $scope.new = function() {
-                $scope.concept = null;
-                conceptModal.modal('show');
-            };
-
-            $scope.edit = function(concept) {
-                $scope.concept = concept;
-                conceptModal.modal('show');
-            };
-
-            $scope.save = function() {
-                if (!$scope.conceptForm.$valid) {
-                    alert("Opps please fix form problems first");
-                    return;
-                }
-
-                $.ajax({
-                    url: "http:////" + window.location.host + "/Api/ApiConcept/Post",
-                    type: 'POST',
-                    dataType: 'json',
-                    data: $scope.concept,
-                    success: function(data) {
-                        conceptModal.modal('hide');
-                        $scope.getList();
-                    },
-                    error: function(x, y, z) {
-                        alert("ERROR:" + x + '\n' + y + '\n' + z);
-                    }
-                });
-            };
-
-            $scope.delete = function(concept) {
-
-                $.ajax({
-                    url: "http:////" + window.location.host + "/Api/ApiConcept/Delete/" + concept.Id,
-                    type: 'DELETE',
-                    dataType: 'json',
-                    success: function(data) {
-                        $scope.getList();
-                    },
-                    error: function(x, y, z) {
-                        alert("ERROR:" + x + '\n' + y + '\n' + z);
-                    }
-                });
-
-            };
-
 
         });
 
