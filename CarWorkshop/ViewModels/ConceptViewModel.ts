@@ -3,13 +3,14 @@
 
 module Concept {
 
-    export class ConceptViewModel {
+    export class ConceptViewModel extends Base.BaseViewModel {
 
         name = "somename";
         concept: Concept;
         scope: any;
         concepts = new Array<Concept>();
         constructor(getScope) {
+            super();
             this.scope = getScope;
         }
 
@@ -21,19 +22,11 @@ module Concept {
             $("#conceptModal").modal("hide");
         }
 
+
         public refresh() {
-            const url = `http:////${window.location.host}/Api/ApiConcept/get`;
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: "json",
-                success: data=> {
-                    this.concepts = data;
-                    this.scope.$apply();
-                },
-                error: (x, y, z) => {
-                    alert(`ERROR:${x}${y}${z}`);
-                }
+            super.getData("ApiConcept/get", data => {
+                this.concepts = data;
+                this.scope.$apply();
             });
         }
 
@@ -53,33 +46,15 @@ module Concept {
                 return;
             }
 
-            $.ajax({
-                url: `http:////${window.location.host}/Api/ApiConcept/Post`,
-                type: "POST",
-                dataType: "json",
-                data: this.concept,
-                success: data => {
-                    this.hideModal();
-                    this.refresh();
-                },
-                error: (x, y, z) => {
-                    alert(`ERROR:${x}${y}${z}`);
-                }
+            this.postData("ApiConcept/Post", this.concept, () => {
+                this.hideModal();
+                this.refresh();
             });
         }
 
         public delete(concept: Concept) {
-
-            $.ajax({
-                url: `http:////${window.location.host}/Api/ApiConcept/Delete/${concept.Id}`,
-                type: "DELETE",
-                dataType: "json",
-                success: data => {
-                    this.refresh();
-                },
-                error: (x, y, z) => {
-                    alert(`ERROR:${x}${y}${z}`);
-                }
+            this.deleteData(`ApiConcept/Delete/${concept.Id}`, () => {
+                this.refresh();
             });
         }
 
