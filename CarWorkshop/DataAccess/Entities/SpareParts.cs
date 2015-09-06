@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using CarWorkshop.DataAccess.Entities.Base;
+using Newtonsoft.Json;
 
 namespace CarWorkshop.DataAccess.Entities
 {
@@ -11,7 +9,7 @@ namespace CarWorkshop.DataAccess.Entities
         public int Id { get; set; }
 
         public Car Car { get; set; }
-        public SparePart SparePart { get; set; }
+        public List<SparePart> SpareParts { get; set; }
         
         public decimal Price { get; set; }
 
@@ -19,5 +17,7 @@ namespace CarWorkshop.DataAccess.Entities
 
     public class SparePart : Lookup
     {
+        [JsonIgnore]
+        public List<SparePartJob> SparePartJobs { get; set; }
     }
 }
