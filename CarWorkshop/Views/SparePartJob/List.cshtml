@@ -12,13 +12,12 @@
     </div>
 
     <div class="col-md-6">
-        <h2>مثال</h2>
+        <h2>قطع الغيار</h2>
     </div>
 </div>
 
 <div class="box row">
     <div class="box-header">
-        @*<h3 class="box-title">Table Header</h3>*@
     </div>
     <div class="box-body">
         <table datatable="ng" class="table table-bordered table-striped table-hover">
@@ -31,7 +30,6 @@
                     <th width="200px"></th>
                 </tr>
             </thead>
-
             <tbody id="tableBody">
                 <tr ng-repeat="x in vm.entities">
                     <td ng-bind="x.Id"></td>
@@ -45,8 +43,14 @@
                     </td>
                 </tr>
             </tbody>
-
         </table>
+    </div>
+    <div>
+        <ul class="pagination">
+            @*<li><a href="#" aria-label="Previous"><span class="mypagination" aria-hidden="true">&laquo;</span></a></li>*@
+            <li ng-repeat="x in vm.pages" ng-class="{'active': x.isSelected}"><a href="#" ng-click="vm.refresh(x)">{{x.value}}</a></li>
+            @*<li><a href="#" aria-label="Next"><span class="mypagination" aria-hidden="true">&raquo;</span></a></li>*@
+        </ul>
     </div>
 </div>
 
@@ -66,37 +70,48 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label class="control-label" for="mySingleFieldTags">قطع الغيار</label>
-                                <input name="tags" class="form-control" id="mySingleFieldTags" value="fancy, new, tag, demo">
+                                <input id="mySingleFieldTags" name="tags" ng-model="vm.entity.SparePartsTags">
                             </div>
 
                             <div class="col-md-6">
                                 <div class="row">
-                                    <div class="form-group" ng-class="{'has-error': conceptForm.name.$error.required}">
-                                        <label class="control-label" for="conceptName">رقم العربة</label>
-                                        <span class="required" ng-show="conceptForm.name.$error.required">
-                                            الرجاء ادخال الاسم
+                                    <div class="form-group" ng-class="{'has-error': conceptForm.carNumber.$error.required}">
+                                        <label class="control-label" for="carNumber">رقم العربة</label>
+                                        <span class="required" ng-show="conceptForm.carNumber.$error.required">
+                                            الرجاء ادخال رقم العربة
                                         </span>
-                                        <input name="name" class="form-control" id="conceptName" ng-model="vm.concept.Name" required />
+                                        <input name="carNumber" class="form-control" id="carNumber" ng-model="vm.entity.Car.CarNumber" required />
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="form-group" ng-class="{'has-error': conceptForm.value.$error.required}">
+
                                         <label class="control-label" for="carType">نوع العربة</label>
                                         <div class="input-group input-group-sm">
-
                                             <span class="input-group-btn">
-                                                <button class="btn btn-info btn-flat" type="button">+</button>
+                                                <button id="dropmeDownCarType" class="btn btn-info btn-flat" type="button">+</button>
                                             </span>
-                                            <select class="form-control select2" id="carType" style="width: 100%; height: 30px">
-                                                <option selected="selected">صالون</option>
-                                                <option>بوكس</option>
-                                                <option>ليلى علوي</option>
-                                                <option>هاتش باك</option>
-                                                <option>هايس</option>
-                                                <option>امجاد</option>
-                                                <option>ركشة</option>
-                                            </select>
+
+                                            <div id="carTypeDropDown" class="dropdown">
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                    <div class="popup">
+                                                        <label class="control-label" for="ss">نوع عربة جديد</label>
+                                                        <input type="text" ng-model="vm.newCarType" class="form-control" id="ss" onclick="event.stopPropagation();">
+
+                                                        <div class="fab red">
+                                                            <img src="~/Content/Images/cross.png" />
+                                                        </div>
+                                                        <div class="fab green" ng-click="vm.addCarType()">
+                                                            <img src="~/Content/Images/tick.png" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <select class="form-control" id="carType"
+                                                    ng-options="x.ArabicName for x in vm.carTypes track by x.Id"
+                                                    ng-model="vm.entity.Car.CarType" style="width: 100%; height: 30px"></select>
 
                                         </div>
                                     </div>
@@ -108,17 +123,28 @@
 
                                         <div class="input-group input-group-sm">
                                             <span class="input-group-btn">
-                                                <button class="btn btn-info btn-flat" type="button">+</button>
+                                                <button id="dropmeDownCarModel" class="btn btn-info btn-flat" type="button">+</button>
                                             </span>
-                                            <select class="form-control select2" id="carModel" style="width: 100%; height: 30px">
-                                                <option selected="selected">لانسر EX</option>
-                                                <option>طيارة</option>
-                                                <option>بطيخ</option>
-                                                <option>اي حاجة</option>
-                                                <option>والسلام</option>
-                                                <option>يلا</option>
-                                                <option>املا بس</option>
-                                            </select>
+
+                                            <div id="carModelDropDown" class="dropdown">
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                    <div class="popup">
+                                                        <label class="control-label" for="ss">موديل عربة جديد</label>
+                                                        <input type="text" ng-model="vm.newCarModel" class="form-control" id="ss" onclick="event.stopPropagation();">
+
+                                                        <div class="fab red">
+                                                            <img src="~/Content/Images/cross.png"/>
+                                                        </div>
+                                                        <div class="fab green" ng-click="vm.addCarModel()">
+                                                            <img src="~/Content/Images/tick.png"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <select class="form-control" id="carModel" style="width: 100%; height: 30px"
+                                                    ng-options="x.ArabicName for x in vm.carModels track by x.Id"
+                                                    ng-model="vm.entity.Car.CarModel"></select>
                                         </div>
 
                                     </div>
@@ -127,13 +153,23 @@
                                 <div class="row">
                                     <div class="form-group" ng-class="{'has-error': conceptForm.price.$error.required}">
                                         <label class="control-label" for="conceptPrice">السعر</label>
-                                        <input name="price" class="form-control" id="conceptPrice" ng-model="vm.concept.Price" required />
+                                        <input name="price" class="form-control" id="conceptPrice" ng-model="vm.entity.Price" required />
                                     </div>
                                 </div>
 
                             </div>
 
                         </div>
+
+                        @*<div class="row">
+                                <div class="popup carTypePopUp">
+                                    <label class="control-label" for="ss">نوع عربة جديد</label>
+                                    <input type="text" class="form-control" id="ss">
+
+                                    <div class="fab red"></div>
+                                    <div class="fab green"></div>
+                                </div>
+                            </div>*@
 
                     </div>
                 </form>
@@ -164,14 +200,30 @@
             $scope.vm = new SparePartJob.SparePartJobViewModel($scope);
 
             $(document).ready(function () {
-                $scope.vm.refresh();
 
                 $(".select2").select2();
 
-                var sampleTags = ['c++', 'java', 'php', 'coldfusion', 'javascript', 'asp', 'ruby', 'python', 'c', 'scala', 'groovy', 'haskell', 'perl', 'erlang', 'apl', 'cobol', 'go', 'lua'];
+                var toggle = function (name) {
+                    if ($("#" + name).hasClass("open")) {
+                        $("#" + name).removeClass("open");
+                    } else {
+                        $("#" + name).addClass("open");
+                    }
+                };
 
-                $("#mySingleFieldTags").tagit({
-                    availableTags: sampleTags
+                $('#dropmeDownCarType').on('click', function (e) {
+                    e.stopPropagation();
+                    toggle("carTypeDropDown");
+                });
+
+                $('#dropmeDownCarModel').on('click', function (e) {
+                    e.stopPropagation();
+                    toggle("carModelDropDown");
+                });
+
+                $("#conceptModal").click(function () {
+                    $("#carTypeDropDown").removeClass("open");
+                    $("#carModelDropDown").removeClass("open");
                 });
             });
         });

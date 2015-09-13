@@ -8,6 +8,9 @@ namespace CarWorkshop.DataAccess
         public DbSet<Concept> Concepts { get; set; }
 
         public DbSet<Car> Cars { get; set; }
+        public DbSet<CarType> CarTypes { get; set; }
+        public DbSet<CarModel> CarModels { get; set; }
+
         public DbSet<SparePart> SpareParts { get; set; }
 
         public DbSet<SparePartJob> SparePartJobs { get; set; }
