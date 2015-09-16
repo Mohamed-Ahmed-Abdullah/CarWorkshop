@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using CarWorkshop.DataAccess.Entities.Base;
 using Newtonsoft.Json;
@@ -8,6 +9,7 @@ namespace CarWorkshop.DataAccess.Entities
     public class SparePartJob
     {
         public int Id { get; set; }
+        public DateTime DateTime { get; set; } = DateTime.Now;
 
         public Car Car { get; set; }
         public List<SparePart> SpareParts { get; set; }

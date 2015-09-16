@@ -2551,7 +2551,7 @@ a:focus {
   border-radius: 0 !important;
 }
 /*
- * Component: Products List
+ * Component: Products SpareParts
  * ------------------------
  */
 .products-list {
@@ -2877,7 +2877,7 @@ table.text-center th {
   border-left-color: #00a65a;
 }
 /*
- * Component: Users List
+ * Component: Users SpareParts
  * ---------------------
  */
 .users-list > li {

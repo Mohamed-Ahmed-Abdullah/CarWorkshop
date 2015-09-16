@@ -1,14 +1,14 @@
 ﻿/// <reference path="../scripts/typings/jquery.d.ts" />
 /// <reference path="../scripts/typings/bootstrap.d.ts" />
 
-module SparePartJob {
+module MechanicJob {
     import KeyValue = Base.KeyValue;
     import CarType = Base.CarType;
     import CarModel = Base.CarModel;
     import Car = Base.Car;
     import Lookup = Base.Lookup;
 
-    export class SparePartJobViewModel extends Base.BaseViewModel {
+    export class MechanicJobViewModel extends Base.BaseViewModel {
 
         entity: SparePartJob;
         scope: any;
@@ -16,6 +16,7 @@ module SparePartJob {
 
         carTypes = new Array<CarType>();
         carModels = new Array<CarModel>();
+        mechanicJobTypes = new Array<MechanicJobType>();
 
         pages = new Array<KeyValue>();
         currentPage: KeyValue;
@@ -23,6 +24,7 @@ module SparePartJob {
 
         newCarType: string;
         newCarModel: string;
+        newMechanicJobType: string;
 
         constructor(getScope) {
             super();
@@ -39,15 +41,12 @@ module SparePartJob {
                 this.scope.$apply();
             });
 
-            this.getPagesCount();
-
-            super.getData("ApiSparePartJob/GetSpareParts", data => {
-                (<any>$("#mySingleFieldTags")).tagit({
-                    availableTags: data,
-                    allowSpaces: true
-                });
+            super.getData("ApiMechanicJob/GetMechanicJobTypes", data => {
+                this.mechanicJobTypes = data;
+                this.scope.$apply();
             });
 
+            this.getPagesCount();
         }
 
         private showModal() {
@@ -59,7 +58,7 @@ module SparePartJob {
         }
 
         private getPagesCount() {
-            super.getPages("ApiSparePartJob/GetPagesCount", this.itemsPerPage, (pages) => {
+            super.getPages("ApiMechanicJob/GetPagesCount", this.itemsPerPage, (pages) => {
                 this.pages = pages;
 
                 this.refresh(this.currentPage == null ? pages[0] : this.currentPage);
@@ -102,6 +101,23 @@ module SparePartJob {
             });
         }
 
+        public addMechanicJobType() {
+            this.postData(`ApiMechanicJob/AddMechanicJobType?mechanicJobType=${this.newMechanicJobType}`, this.entity, () => {
+                //update lookups
+                super.getData("ApiMechanicJob/GetMechanicJobTypes", data => {
+                    this.mechanicJobTypes = data;
+
+                    //select it
+                    $.each(this.mechanicJobTypes, (index, value) => {
+                        if (value.ArabicName === this.newMechanicJobType)
+                            this.entity.MechanicType = value;
+                    });
+
+                    this.scope.$apply();
+                });
+            });
+        }
+
         public changeCurrentPage(page: KeyValue) {
             this.currentPage = page;
 
@@ -115,20 +131,9 @@ module SparePartJob {
 
         public refresh(page: KeyValue) {
 
-            super.getList("ApiSparePartJob/get", this.itemsPerPage, page.key, data => {
+            super.getList("ApiMechanicJob/get", this.itemsPerPage, page.key, data => {
                 this.entities = data;
                 this.scope.$apply();
-
-                //make SpareParts One String
-                $.each(this.entities, (index, value) => {
-                    $.each(value.SpareParts, (index2, value2) => {
-                        if (value.StringSpareParts == null)
-                            value.StringSpareParts = "";
-                        value.StringSpareParts += value2.ArabicName + ", ";
-                    });
-                    //take the last ','
-                    value.StringSpareParts = value.StringSpareParts.substr(0, value.StringSpareParts.length - 2);
-                });
 
                 this.changeCurrentPage(page);
             });
@@ -137,19 +142,13 @@ module SparePartJob {
         public new() {
             this.entity = new SparePartJob();
             this.entity.Car = new Car();
-            this.entity.Car.CarType = new CarType();
-            (<any>$("#mySingleFieldTags")).tagit("removeAll");
+            this.entity.Car.CarType = new CarType();            
 
             this.showModal();
         }
 
         public edit(toEdit: SparePartJob) {
             this.entity = $.extend(true, {}, toEdit);
-
-            (<any>$("#mySingleFieldTags")).tagit("removeAll");
-            $.each(this.entity.SpareParts, (index, value) => {
-                (<any>$("#mySingleFieldTags")).tagit("createTag", value.ArabicName);
-            });
             this.showModal();
         }
 
@@ -159,7 +158,7 @@ module SparePartJob {
                 return;
             }
 
-            this.postData("ApiSparePartJob/Post", this.entity, () => {
+            this.postData("ApiMechanicJob/Post", this.entity, () => {
                 this.hideModal();
 
                 this.refresh(this.currentPage);
@@ -169,7 +168,7 @@ module SparePartJob {
         }
 
         public delete(concept: SparePartJob) {
-            this.deleteData(`ApiSparePartJob/Delete/${concept.Id}`, () => {
+            this.deleteData(`ApiMechanicJob/Delete/${concept.Id}`, () => {
                 this.refresh(this.currentPage);
             });
         }
@@ -179,11 +178,10 @@ module SparePartJob {
     export class SparePartJob {
         Id: number;
         Car: Car;
-        SpareParts: Array<SparePart>;
-        StringSpareParts: string;
+        MechanicType: MechanicJobType;
         SparePartsTags: string;
         Price: number;
     }
-
-    export class SparePart extends Lookup { }
+    
+    export class MechanicJobType extends Lookup { }
 }

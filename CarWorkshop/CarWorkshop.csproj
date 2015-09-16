@@ -212,14 +212,16 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApiCarController.cs" />
     <Compile Include="Controllers\ApiConceptController.cs" />
+    <Compile Include="Controllers\ApiMechanicJobController.cs" />
     <Compile Include="Controllers\ApiSparePartJobController.cs" />
     <Compile Include="Controllers\ConceptController.cs" />
     <Compile Include="Controllers\DentingJobController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MechanicJobController.cs" />
     <Compile Include="Controllers\PaintingJobController.cs" />
-    <Compile Include="Controllers\SparePartJobController.cs" />
+    <Compile Include="Controllers\NavigationController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DataAccess\DataContext.cs" />
     <Compile Include="DataAccess\Entities\Base\Lookup.cs" />
@@ -410,15 +412,14 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Concept\List.cshtml" />
-    <Content Include="Views\SparePartJob\List.cshtml" />
+    <Content Include="Views\Navigation\SpareParts.cshtml" />
+    <Content Include="Views\Navigation\Mechanic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\fonts\" />
     <Folder Include="DataAccess\DataModels\" />
     <Folder Include="Models\Concept\" />
-    <Folder Include="Views\DentingJob\" />
-    <Folder Include="Views\MechanicJob\" />
     <Folder Include="Views\PaintingJob\" />
   </ItemGroup>
   <ItemGroup>
@@ -433,6 +434,7 @@
     <TypeScriptCompile Include="Scripts\typings\bootstrap.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery.d.ts" />
     <TypeScriptCompile Include="ViewModels\Base\BaseViewModel.ts" />
+    <TypeScriptCompile Include="ViewModels\MechanicJobViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\SparePartJobViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\ConceptViewModel.ts" />
   </ItemGroup>

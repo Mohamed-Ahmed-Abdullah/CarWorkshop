@@ -81,4 +81,21 @@
         value: string;
         isSelected = false;
     }
+
+    export class Lookup {
+        Id: number;
+        ArabicName: string;
+        EnglishName: string;
+        Notes: string;
+    }
+
+    export class Car {
+        Id: number;
+        CarNumber: string;
+        CarType: CarType;
+        CarModel: CarModel;
+    }
+
+    export class CarType extends Lookup { }
+    export class CarModel extends Lookup { }
 }

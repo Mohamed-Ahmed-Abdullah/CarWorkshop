@@ -1,0 +1,254 @@
+﻿@{
+    ViewBag.Title = "قطع غيار";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/select2.min.css" rel="stylesheet" />
+
+<div class="row">
+
+    <div class="col-md-6">
+        <button class="btn btn-success" data-toggle="modal" ng-click="vm.new()"> جديد </button>
+    </div>
+
+    <div class="col-md-6">
+        <h2>قطع الغيار</h2>
+    </div>
+</div>
+
+<div class="box row">
+    <div class="box-header">
+    </div>
+    <div class="box-body">
+        <table datatable="ng" class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>الرقم</th>
+                    <th>العربة</th>
+                    <th>نوع الكنيكا</th>
+                    <th>القيمة</th>
+                    <th width="200px"></th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr ng-repeat="x in vm.entities">
+                    <td ng-bind="x.Id"></td>
+                    <td>{{x.Car.CarNumber}}, {{x.Car.CarType.ArabicName}}, {{x.Car.CarModel.ArabicName}}</td>
+                    <td ng-bind="x.MechanicType.ArabicName"></td>
+                    <td ng-bind="x.Price"></td>
+                    <td>
+                        <Button type="button" class="btn btn-success btn-xs" ng-click="vm.edit(x)">تعديل</Button>
+                        <Button type="button" class="btn btn-default btn-xs" ng-click="vm.edit(x)">التفاصيل</Button>
+                        <Button type="button" class="btn btn-danger btn-xs" ng-click="vm.delete(x)">حذف</Button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <ul class="pagination">
+            <li ng-repeat="x in vm.pages" ng-class="{'active': x.isSelected}"><a href="#" ng-click="vm.refresh(x)">{{x.value}}</a></li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="modal fade" id="conceptModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">قطع غيار</h4>
+            </div>
+            <div class="modal-body">
+
+                <form name="conceptForm" novalidate>
+                    <div class="content">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="control-label" for="MechanicType">نوع المكنيكا</label>
+                                @*<input id="mySingleFieldTags" name="tags" ng-model="vm.entity.SparePartsTags">*@
+                                
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-btn">
+                                        <button id="dropmeDownMechanicType" class="btn btn-info btn-flat" type="button">+</button>
+                                    </span>
+
+                                    <div id="mechanicTypeDropDown" class="dropdown">
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <div class="popup">
+                                                <label class="control-label" for="ss">نوع مكنيكا جديد</label>
+                                                <input type="text" ng-model="vm.newMechanicJobType" class="form-control" id="ss" onclick="event.stopPropagation();">
+
+                                                <div class="fab red">
+                                                    <img src="~/Content/Images/cross.png" />
+                                                </div>
+                                                <div class="fab green" ng-click="vm.addMechanicJobType()">
+                                                    <img src="~/Content/Images/tick.png" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <select class="form-control" id="MechanicType"
+                                            ng-options="x.ArabicName for x in vm.mechanicJobTypes track by x.Id"
+                                            ng-model="vm.entity.MechanicType" style="width: 100%; height: 30px"></select>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="form-group" ng-class="{'has-error': conceptForm.carNumber.$error.required}">
+                                        <label class="control-label" for="carNumber">رقم العربة</label>
+                                        <span class="required" ng-show="conceptForm.carNumber.$error.required">
+                                            الرجاء ادخال رقم العربة
+                                        </span>
+                                        <input name="carNumber" class="form-control" id="carNumber" ng-model="vm.entity.Car.CarNumber" required />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group" ng-class="{'has-error': conceptForm.value.$error.required}">
+
+                                        <label class="control-label" for="carType">نوع العربة</label>
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-btn">
+                                                <button id="dropmeDownCarType" class="btn btn-info btn-flat" type="button">+</button>
+                                            </span>
+
+                                            <div id="carTypeDropDown" class="dropdown">
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                    <div class="popup">
+                                                        <label class="control-label" for="ss">نوع عربة جديد</label>
+                                                        <input type="text" ng-model="vm.newCarType" class="form-control" id="ss" onclick="event.stopPropagation();">
+
+                                                        <div class="fab red">
+                                                            <img src="~/Content/Images/cross.png" />
+                                                        </div>
+                                                        <div class="fab green" ng-click="vm.addCarType()">
+                                                            <img src="~/Content/Images/tick.png" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <select class="form-control" id="carType"
+                                                    ng-options="x.ArabicName for x in vm.carTypes track by x.Id"
+                                                    ng-model="vm.entity.Car.CarType" style="width: 100%; height: 30px"></select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group" ng-class="{'has-error': conceptForm.value.$error.required}">
+                                        <label class="control-label" for="carModel">موديل العربة</label>
+
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-btn">
+                                                <button id="dropmeDownCarModel" class="btn btn-info btn-flat" type="button">+</button>
+                                            </span>
+
+                                            <div id="carModelDropDown" class="dropdown">
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                    <div class="popup">
+                                                        <label class="control-label" for="ss">موديل عربة جديد</label>
+                                                        <input type="text" ng-model="vm.newCarModel" class="form-control" id="ss" onclick="event.stopPropagation();">
+
+                                                        <div class="fab red">
+                                                            <img src="~/Content/Images/cross.png" />
+                                                        </div>
+                                                        <div class="fab green" ng-click="vm.addCarModel()">
+                                                            <img src="~/Content/Images/tick.png" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <select class="form-control" id="carModel" style="width: 100%; height: 30px"
+                                                    ng-options="x.ArabicName for x in vm.carModels track by x.Id"
+                                                    ng-model="vm.entity.Car.CarModel"></select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group" ng-class="{'has-error': conceptForm.price.$error.required}">
+                                        <label class="control-label" for="conceptPrice">السعر</label>
+                                        <input name="price" class="form-control" id="conceptPrice" ng-model="vm.entity.Price" required />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button id="btnUpload" type="button" class="btn btn-default" data-dismiss="modal">اغلق</button>
+                <button type="button" class="btn btn-success" @*ng-disabled="conceptForm.$invalid"*@ ng-click="vm.save()">حفظ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts
+{
+    <script src="~/Scripts/select2.full.min.js"></script>
+    <script src="~/ViewModels/Base/BaseViewModel.js"></script>
+    <script src="~/ViewModels/MechanicJobViewModel.js"></script>
+
+    <script>
+        var parking = angular.module("CarWorkshop", []);
+
+        parking.controller("CarWorkshopController", function ($scope) {
+
+            $scope.vm = new MechanicJob.MechanicJobViewModel($scope);
+
+            $(document).ready(function () {
+
+                $(".select2").select2();
+
+                var toggle = function (name) {
+                    if ($("#" + name).hasClass("open")) {
+                        $("#" + name).removeClass("open");
+                    } else {
+                        $("#" + name).addClass("open");
+                    }
+                };
+
+                $('#dropmeDownCarType').on('click', function (e) {
+                    e.stopPropagation();
+                    toggle("carTypeDropDown");
+                });
+
+                $('#dropmeDownCarModel').on('click', function (e) {
+                    e.stopPropagation();
+                    toggle("carModelDropDown");
+                });
+
+                $('#dropmeDownMechanicType').on('click', function (e) {
+                    e.stopPropagation();
+                    toggle("mechanicTypeDropDown");
+                });
+
+                $("#conceptModal").click(function () {
+                    $("#carTypeDropDown").removeClass("open");
+                    $("#carModelDropDown").removeClass("open");
+                    $("#mechanicTypeDropDown").removeClass("open");
+                });
+            });
+        });
+    </script>
+}

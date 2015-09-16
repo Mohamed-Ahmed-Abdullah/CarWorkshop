@@ -34,7 +34,7 @@
                 <tr ng-repeat="x in vm.entities">
                     <td ng-bind="x.Id"></td>
                     <td>{{x.Car.CarNumber}}, {{x.Car.CarType.ArabicName}}, {{x.Car.CarModel.ArabicName}}</td>
-                    <td ng-bind="x.SparePart.ArabicName"></td>
+                    <td ng-bind="x.StringSpareParts"></td>
                     <td ng-bind="x.Price"></td>
                     <td>
                         <Button type="button" class="btn btn-success btn-xs" ng-click="vm.edit(x)">تعديل</Button>
@@ -161,16 +161,7 @@
 
                         </div>
 
-                        @*<div class="row">
-                                <div class="popup carTypePopUp">
-                                    <label class="control-label" for="ss">نوع عربة جديد</label>
-                                    <input type="text" class="form-control" id="ss">
-
-                                    <div class="fab red"></div>
-                                    <div class="fab green"></div>
-                                </div>
-                            </div>*@
-
+                      
                     </div>
                 </form>
 

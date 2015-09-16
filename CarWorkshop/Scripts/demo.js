@@ -9,7 +9,7 @@
   "use strict";
 
   /**
-   * List of all the available skins
+   * SpareParts of all the available skins
    *
    * @type Array
    */
