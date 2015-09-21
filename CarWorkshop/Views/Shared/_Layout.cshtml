@@ -14,7 +14,8 @@
 
     <link href="~/Content/jquery.tagit.css" rel="stylesheet" />
     <link href="~/Content/tagit.ui-zendesk.css" rel="stylesheet" />
-
+    <script src="~/Scripts/Chart.min.js"></script>
+    <script src="~/Scripts/numeral.js"></script>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini" ng-controller="CarWorkshopController">
@@ -25,10 +26,17 @@
             </a>
             <nav class="navbar navbar-static-top" role="navigation">
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button" style="float: right;">
-                    <img class="image20" src="~/Content/Images/Columns.png" />
+                    <img class="image20" src="~/Content/Images/Columns.png"/>
                     @*<span class="sr-only">Toggle navigation</span>*@
                 </a>
+
+                <a href="#" class="">
+                    <img src="~/Content/Images/user1-128x128.jpg"  class="cercelImage" alt="User Image"/>
+                    <span class="cercelImageText">محمد احمد</span>
+                </a>
             </nav>
+
+           
         </header>
 
         <aside class="main-sidebar" style="right:0;">
@@ -41,15 +49,48 @@
                         </a>
                     </li>
                     <li class="active">
+                        <a class="arabic"  href="@Url.Action("LastActions", "Navigation")">
+                            <i class="fa fa-dashboard"></i>
+                            <span>العمليات الاخيرة</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a class="arabic" href="#">
+                            <i class="fa fa-dashboard"></i>
+                            <span>تقارير عامة</span> 
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu ">
+                            <li><a class="arabic" href="../../index.html"><i class="fa fa-circle-o"></i> تقارير قطع غيار</a></li>
+                            <li><a class="arabic" href="../../index2.html"><i class="fa fa-circle-o"></i> تقارير مكنيكا</a></li>
+                            <li><a class="arabic" href="../../index2.html"><i class="fa fa-circle-o"></i> تقارير سمكرة</a></li>
+                            <li><a class="arabic" href="../../index2.html"><i class="fa fa-circle-o"></i> تقارير بوهية</a></li>
+                        </ul>
+                    </li>
+                    <li class="active">
                         <a class="arabic" href="@Url.Action("SpareParts", "Navigation")">
                             <i class="fa fa-dashboard"></i>
                             <span>قطع غيار</span>
                         </a>
                     </li>
                     <li class="active">
-                        <a class="arabic" href="@Url.Action("Mechanic","Navigation")">
+                        <a class="arabic" href="@Url.Action("Mechanic", "Navigation")">
                             <i class="fa fa-dashboard"></i>
                             <span>مكنيكا</span>
+                        </a>
+                    </li>
+
+                    <li class="active">
+                        <a class="arabic" href="@Url.Action("Mechanic", "Navigation")">
+                            <i class="fa fa-dashboard"></i>
+                            <span>سمكرة</span>
+                        </a>
+                    </li>
+
+                    <li class="active">
+                        <a class="arabic" href="@Url.Action("Mechanic","Navigation")">
+                            <i class="fa fa-dashboard"></i>
+                            <span>بوهية</span>
                         </a>
                     </li>
                 </ul>

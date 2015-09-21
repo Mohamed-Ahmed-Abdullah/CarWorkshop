@@ -20,6 +20,7 @@ module SparePartJob {
         pages = new Array<KeyValue>();
         currentPage: KeyValue;
         itemsPerPage = 10;
+        searchTerm="";
 
         newCarType: string;
         newCarModel: string;
@@ -59,7 +60,7 @@ module SparePartJob {
         }
 
         private getPagesCount() {
-            super.getPages("ApiSparePartJob/GetPagesCount", this.itemsPerPage, (pages) => {
+            super.getPages("ApiSparePartJob/GetPagesCount", this.itemsPerPage,this.searchTerm, (pages) => {
                 this.pages = pages;
 
                 this.refresh(this.currentPage == null ? pages[0] : this.currentPage);
@@ -113,9 +114,14 @@ module SparePartJob {
             this.scope.$apply();
         }
 
+        public search() {
+            this.currentPage = this.currentPage == null ? this.pages[0] : this.currentPage;
+            this.refresh(this.currentPage);
+        }
+
         public refresh(page: KeyValue) {
 
-            super.getList("ApiSparePartJob/get", this.itemsPerPage, page.key, data => {
+            super.getList("ApiSparePartJob/get", this.itemsPerPage,this.searchTerm, page.key, data => {
                 this.entities = data;
                 this.scope.$apply();
 

@@ -2,10 +2,10 @@
 
     export class BaseViewModel {
 
-        protected getPages(url: string, itemsPerPage: number, done: (pages: Array<KeyValue>) => void) {
+        protected getPages(url: string, itemsPerPage: number,searchTerm: string, done: (pages: Array<KeyValue>) => void) {
 
             $.ajax({
-                url: `http:////${window.location.host}/Api/` + url + "?itemsPerPage=" + itemsPerPage,
+                url: `http:////${window.location.host}/Api/` + url + "?itemsPerPage=" + itemsPerPage +"&searchTerm="+searchTerm,
                 type: "GET",
                 dataType: "json",
                 success: (data) =>
@@ -37,9 +37,9 @@
             });
         }
 
-        protected getList(url: string, itemsPerPage: number, currentPage:number, done: (data: any) => void) {
+        protected getList(url: string, itemsPerPage: number,searchTerm: string, currentPage:number, done: (data: any) => void) {
             $.ajax({
-                url: `http:////${window.location.host}/Api/` + url + "?itemsPerPage=" + itemsPerPage + "&currentPage=" + currentPage,
+                url: `http:////${window.location.host}/Api/` + url + "?itemsPerPage=" + itemsPerPage + "&currentPage=" + currentPage +"&searchTerm=" + searchTerm,
                 type: "GET",
                 dataType: "json",
                 success: done,

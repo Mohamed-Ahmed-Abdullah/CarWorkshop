@@ -248,9 +248,12 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\dataTables.bootstrap.css" />
+    <Content Include="Content\Images\Calculator.png" />
     <Content Include="Content\Images\Columns.png" />
     <Content Include="Content\Images\cross.png" />
+    <Content Include="Content\Images\Dollar.png" />
     <Content Include="Content\Images\tick.png" />
+    <Content Include="Content\Images\user1-128x128.jpg" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery.tagit.css" />
     <Content Include="Content\select2.min.css" />
@@ -314,8 +317,10 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\numeral.js" />
     <Content Include="Scripts\tag-it.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -414,6 +419,7 @@
     <Content Include="Views\Concept\List.cshtml" />
     <Content Include="Views\Navigation\SpareParts.cshtml" />
     <Content Include="Views\Navigation\Mechanic.cshtml" />
+    <Content Include="Views\Navigation\LastActions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -58,7 +58,7 @@ module MechanicJob {
         }
 
         private getPagesCount() {
-            super.getPages("ApiMechanicJob/GetPagesCount", this.itemsPerPage, (pages) => {
+            super.getPages("ApiMechanicJob/GetPagesCount", this.itemsPerPage,"", (pages) => {
                 this.pages = pages;
 
                 this.refresh(this.currentPage == null ? pages[0] : this.currentPage);
@@ -131,7 +131,7 @@ module MechanicJob {
 
         public refresh(page: KeyValue) {
 
-            super.getList("ApiMechanicJob/get", this.itemsPerPage, page.key, data => {
+            super.getList("ApiMechanicJob/get", this.itemsPerPage,"", page.key, data => {
                 this.entities = data;
                 this.scope.$apply();
 

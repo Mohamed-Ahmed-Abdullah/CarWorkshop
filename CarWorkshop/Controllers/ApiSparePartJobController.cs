@@ -6,30 +6,57 @@ using CarWorkshop.DataAccess;
 using CarWorkshop.DataAccess.Entities;
 
 namespace CarWorkshop.Controllers
-{    
+{
     public class ApiSparePartJobController : ApiController
     {
-        public int GetPagesCount(int itemsPerPage)
-        {
-            if (itemsPerPage <= 0 )
-                return 0;
-
-            return (int) Math.Ceiling(((double) new DatabaseContext().SparePartJobs.Count())/itemsPerPage);
-        }
 
         public List<string> GetSpareParts()
         {
             return new DatabaseContext().SpareParts.Select(s => s.ArabicName).ToList();
         }
 
-        public List<SparePartJob> Get(int itemsPerPage, int currentPage)
+        public int GetPagesCount(int itemsPerPage, string searchTerm)
         {
-            var entities = new DatabaseContext().SparePartJobs
+            if (itemsPerPage <= 0)
+                return 0;
+
+            var number = 0m;
+            decimal.TryParse(searchTerm, out number);
+
+            var query = new DatabaseContext().SparePartJobs.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+                query = query.Where(w =>
+                    w.Car.CarNumber.Contains(searchTerm) ||
+                    w.SpareParts.Any(s => s.ArabicName.Contains(searchTerm)) ||
+                    w.Car.CarType.ArabicName.Contains(searchTerm) ||
+                    w.Car.CarModel.ArabicName.Contains(searchTerm) ||
+                    w.Price == number);
+
+            return (int)Math.Ceiling(((double)query.Count()) / itemsPerPage);
+        }
+        public List<SparePartJob> Get(int itemsPerPage, int currentPage, string searchTerm)
+        {
+            var number = 0m;
+            decimal.TryParse(searchTerm, out number);
+
+            var query = new DatabaseContext().SparePartJobs
                 .Include("Car")
                 .Include("Car.CarModel")
                 .Include("Car.CarType")
                 .Include("SpareParts")
-                .OrderBy(o=>o.Id)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+                query = query.Where(w =>
+                    w.Car.CarNumber.Contains(searchTerm) ||
+                    w.SpareParts.Any(s => s.ArabicName.Contains(searchTerm)) ||
+                    w.Car.CarType.ArabicName.Contains(searchTerm) || 
+                    w.Car.CarModel.ArabicName.Contains(searchTerm) || 
+                    w.Price == number);
+
+            var entities = query
+                .OrderBy(o => o.Id)
                 .Skip(itemsPerPage * (currentPage - 1))
                 .Take(itemsPerPage)
                 .ToList();
@@ -37,15 +64,15 @@ namespace CarWorkshop.Controllers
             var sparePartJobs = entities.Select(s => new SparePartJob
             {
                 Id = s.Id,
-                Price = s.Price ,
+                Price = s.Price,
                 Car = new Car
                 {
                     Id = s.Car.Id,
                     CarNumber = s.Car.CarNumber,
-                    CarType = new CarType {  Id = s.Car.CarType.Id , ArabicName = s.Car.CarType.ArabicName},
-                    CarModel = new CarModel { Id = s.Car.CarModel.Id , ArabicName = s.Car.CarModel.ArabicName},
+                    CarType = new CarType { Id = s.Car.CarType.Id, ArabicName = s.Car.CarType.ArabicName },
+                    CarModel = new CarModel { Id = s.Car.CarModel.Id, ArabicName = s.Car.CarModel.ArabicName },
                 },
-                SpareParts = s.SpareParts.Select(sp=>new SparePart { Id = sp.Id , ArabicName = sp.ArabicName}).ToList(),
+                SpareParts = s.SpareParts.Select(sp => new SparePart { Id = sp.Id, ArabicName = sp.ArabicName }).ToList(),
             })
             .ToList();
 
@@ -76,7 +103,7 @@ namespace CarWorkshop.Controllers
                 car.CarModel = carModel ?? sparePartJob.Car.CarModel;
 
                 sparePartJob.Car = car;
-                sparePartJob.SpareParts = GetSpareParts(db,sparePartJob.SparePartsTags);
+                sparePartJob.SpareParts = GetSpareParts(db, sparePartJob.SparePartsTags);
 
                 db.SparePartJobs.Add(sparePartJob);
             }
@@ -111,14 +138,14 @@ namespace CarWorkshop.Controllers
                     //added
                     conceptToUpdate.SpareParts.AddRange(newToAdd);
                     //removed
-                    toRemove.ForEach(f=> conceptToUpdate.SpareParts.Remove(f));
+                    toRemove.ForEach(f => conceptToUpdate.SpareParts.Remove(f));
                 }
             }
 
             db.SaveChanges();
         }
 
-        private List<SparePart> GetSpareParts(DatabaseContext db,string tags)
+        private List<SparePart> GetSpareParts(DatabaseContext db, string tags)
         {
             if (string.IsNullOrWhiteSpace(tags))
                 return null;

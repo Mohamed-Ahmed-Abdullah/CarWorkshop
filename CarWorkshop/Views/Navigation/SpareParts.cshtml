@@ -18,6 +18,8 @@
 
 <div class="box row">
     <div class="box-header">
+        <input type="text" class="form-control search input-sm" ng-model="vm.searchTerm" id="exampleInputEmail1" placeholder="بحث">
+        <button type="button" ng-click="vm.search()" class="btn btn-default btn-sm">ابحث</button>
     </div>
     <div class="box-body">
         <table datatable="ng" class="table table-bordered table-striped table-hover">
